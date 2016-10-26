@@ -15,7 +15,7 @@ http_proxy="$REPO_PROXY" wget -N -P "$CACHEDIR" "${NIXOS_URL}.sha256"
 
 
 echo "  --> Verifying ISO..."
-sha256sum --check "${CACHEDIR}/${NIXOS_ISO}.sha256" || exit
+$(echo "$(cat ${CACHEDIR}/${NIXOS_ISO}.sha256)  ${CACHEDIR}/${NIXOS_ISO}" | sha256sum --check) || exit
 ## XXX: no published gpg signature
 
 
