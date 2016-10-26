@@ -20,4 +20,5 @@ echo "$(cat ${CACHEDIR}/${NIXOS_ISO}.sha256)  ${CACHEDIR}/${NIXOS_ISO}" | sha256
 
 
 echo "  --> Hardlinking ISO to 'nixos.iso'..."
+rm -f "${CACHEDIR}/nixos.iso"
 ln "${CACHEDIR}/${NIXOS_ISO}" "${CACHEDIR}/nixos.iso"
