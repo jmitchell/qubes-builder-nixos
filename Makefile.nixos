@@ -1,1 +1,14 @@
-# empty
+dist-prepare-chroot:
+	echo "Makefile.nixos: dist-prepare-chroot"
+
+dist-package:
+	echo "Makefile.nixos: dist-package"
+
+dist-build-dep:
+	echo "Makefile.nixos: dist-build-dep"
+
+dist-copy-out:
+	echo "Makefile.nixos: dist-copy-out"
+
+update-repo:
+	echo "Makefile.nixos: dist-update-repo"
