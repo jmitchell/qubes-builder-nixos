@@ -33,7 +33,7 @@ mountpoint "${CACHEDIR}/mnt/nixos-iso" && umount "${CACHEDIR}/mnt/nixos-iso"
 mount -t iso9660 -o loop "${CACHEDIR}/nixos.iso" "${CACHEDIR}/mnt/nixos-iso"
 
 echo "--> copying ISO contents to ${CACHEDIR}/nixos-chroot"
-cp -a "${CACHEDIR}/mnt/nixos-iso" "${CACHEDIR}/nixos-chroot"
+rsync -a "${CACHEDIR}/mnt/nixos-iso/." "${CACHEDIR}/nixos-chroot"
 
 # following based on https://nixos.org/wiki/How_to_install_NixOS_from_Linux
 echo "--> unsquashing nix store"
@@ -55,7 +55,7 @@ echo "--> leaving nix root"
 popd
 
 echo "--> copy nixos-chroot to ${INSTALLDIR}"
-cp -ar "${CACHEDIR}/nixos-chroot/*" "${INSTALLDIR}"
+rsync -a "${CACHEDIR}/nixos-chroot/." "${INSTALLDIR}"
 
 
 # echo "  --> Binding INSTALLDIR '${INSTALLDIR}' to bootstrap environment..."
