@@ -29,3 +29,5 @@ set -e
 # echo "    --> Selected packages: ${PKGGROUPS}"
 # "${SCRIPTSDIR}/arch-chroot-lite" "$INSTALLDIR" /bin/sh -c \
 #     "http_proxy='${REPO_PROXY}' pacman -S --needed --noconfirm ${PKGGROUPS}"
+
+echo "--> NixOS 02_install_groups.sh done"
