@@ -45,7 +45,7 @@ echo "--> entering nix root"
 pushd "${CACHEDIR}/nixos-chroot"
 
 echo "--> creating nix root directories"
-mkdir -p etc dev proc sys home
+mkdir -p etc dev proc sys home usr/local
 
 echo "--> patching init to start bash instead of systemd"
 INIT=$(find . -type f -path '*nixos*/init')
