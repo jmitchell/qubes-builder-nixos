@@ -44,13 +44,13 @@ echo "--> NixOS 04_install_qubes.sh done"
 # "${SCRIPTSDIR}/arch-chroot-lite" "$INSTALLDIR" /bin/sh -c \
 #     "pacman -S --noconfirm qubes-vm-gui"
 
-# echo "  --> Updating template fstab file..."
-# cat >> "${INSTALLDIR}/etc/fstab" <<EOF
-# /dev/mapper/dmroot / ext4 defaults,noatime 1 1
-# /dev/xvdb /rw ext4 defaults,noatime 1 2
-# /dev/xvdc1 swap swap defaults 0 0
-# /rw/home /home none noauto,bind,defaults 0 0
-# EOF
+echo "  --> Updating template fstab file..."
+cat >> "${INSTALLDIR}/etc/fstab" <<EOF
+/dev/mapper/dmroot / ext4 defaults,noatime 1 1
+/dev/xvdb /rw ext4 defaults,noatime 1 2
+/dev/xvdc1 swap swap defaults 0 0
+/rw/home /home none noauto,bind,defaults 0 0
+EOF
 
 # echo "  --> Configuring system to our preferences..."
 # # Name network devices using simple names (ethX)
