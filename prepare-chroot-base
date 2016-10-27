@@ -29,6 +29,7 @@ set -e
 # fi
 
 mkdir -p "${CACHEDIR}/mnt/nixos-iso"
+mountpoint "${CACHEDIR}/mnt/nixos-iso" && umount "${CACHEDIR}/mnt/nixos-iso"
 mount -t iso9660 -o loop "${CACHEDIR}/nixos.iso" "${CACHEDIR}/mnt/nixos-iso"
 
 echo "--> copying ISO contents to ${CACHEDIR}/nixos-chroot"
@@ -36,6 +37,7 @@ cp -a "${CACHEDIR}/mnt/nixos-iso" "${CACHEDIR}/nixos-chroot"
 
 # following based on https://nixos.org/wiki/How_to_install_NixOS_from_Linux
 echo "--> unsquashing nix store"
+mkdir -p "${CACHEDIR}/nixos-chroot/nix/store"
 unsquashfs -d "${CACHEDIR}/nixos-chroot/nix/store" "${CACHEDIR}/nixos-chroot/nix-store.squashfs '*'"
 
 echo "--> entering nix root"
