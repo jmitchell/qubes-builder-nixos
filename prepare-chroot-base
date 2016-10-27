@@ -39,6 +39,7 @@ rsync -a "${CACHEDIR}/mnt/nixos-iso/." "${CACHEDIR}/nixos-chroot"
 echo "--> unsquashing nix store"
 mkdir -p "${CACHEDIR}/nixos-chroot/nix"
 unsquashfs -d "${CACHEDIR}/nixos-chroot/nix/store" "${CACHEDIR}/nixos-chroot/nix-store.squashfs"
+rm -f "${CACHEDIR}/nixos-chroot/nix-store.squashfs"
 
 echo "--> entering nix root"
 pushd "${CACHEDIR}/nixos-chroot"
