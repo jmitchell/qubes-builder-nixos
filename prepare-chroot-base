@@ -55,7 +55,7 @@ echo "--> leaving nix root"
 popd
 
 echo "--> copy nixos-chroot to ${INSTALLDIR}"
-cp -a "${CACHEDIR}/nixos-chroot" "${INSTALLDIR}"
+cp -ar "${CACHEDIR}/nixos-chroot/*" "${INSTALLDIR}"
 
 
 # echo "  --> Binding INSTALLDIR '${INSTALLDIR}' to bootstrap environment..."
