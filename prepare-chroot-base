@@ -31,8 +31,10 @@ set -e
 mkdir -p "${CACHEDIR}/mnt/nixos-iso"
 mount -t iso9660 -o loop "${CACHEDIR}/nixos.iso" "${CACHEDIR}/mnt/nixos-iso"
 
+echo "--> copying ISO contents to ${INSTALLDIR}"
 cp -a "${CACHEDIR}/mnt/nixos-iso" "${INSTALLDIR}"
 
+echo "--> unmounting ISO"
 umount "${CACHEDIR}/mnt/nixos-iso"
 
 # echo "  --> Binding INSTALLDIR '${INSTALLDIR}' to bootstrap environment..."

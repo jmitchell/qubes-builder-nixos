@@ -10,8 +10,6 @@ echo "--> NixOS 04_install_qubes.sh"
 set -e
 [ "$VERBOSE" -ge 2 -o "$DEBUG" -gt 0 ] && set -x
 
-echo "--> NixOS 04_install_qubes.sh done"
-
 # echo "  --> Enabling x86 repos..."
 # su -c "echo '[multilib]' >> $INSTALLDIR/etc/pacman.conf"
 # su -c "echo 'SigLevel = PackageRequired' >> $INSTALLDIR/etc/pacman.conf"
@@ -79,3 +77,5 @@ EOF
 # #[qubes]
 # #Server = http://olivier.medoc.free.fr/archlinux/r3/
 # #EOF
+
+echo "--> NixOS 04_install_qubes.sh done"
