@@ -31,11 +31,27 @@ set -e
 mkdir -p "${CACHEDIR}/mnt/nixos-iso"
 mount -t iso9660 -o loop "${CACHEDIR}/nixos.iso" "${CACHEDIR}/mnt/nixos-iso"
 
-echo "--> copying ISO contents to ${INSTALLDIR}"
-cp -a "${CACHEDIR}/mnt/nixos-iso" "${INSTALLDIR}"
+echo "--> copying ISO contents to ${CACHEDIR}/nixos-chroot"
+cp -a "${CACHEDIR}/mnt/nixos-iso" "${CACHEDIR}/nixos-chroot"
 
-echo "--> unmounting ISO"
-umount "${CACHEDIR}/mnt/nixos-iso"
+# following based on https://nixos.org/wiki/How_to_install_NixOS_from_Linux
+echo "--> unsquashing nix store"
+unsquashfs -d "${CACHEDIR}/nixos-chroot/nix/store" "${CACHEDIR}/nixos-chroot/nix-store.squashfs '*'"
+
+echo "--> entering nix root"
+pushd "${CACHEDIR}/nixos-chroot"
+
+echo "--> creating nix root directories"
+mkdir -p etc dev proc sys
+
+echo "--> patching init to start bash instead of systemd"
+INIT=$(find . -type f -path '*nixos*/init')
+BASH=$(find . -type f -path '*/bin/bash' | tail -n 1)
+sed -i "s,exec systemd,exec /$BASH," $INIT
+
+echo "--> leaving nix root"
+popd
+
 
 # echo "  --> Binding INSTALLDIR '${INSTALLDIR}' to bootstrap environment..."
 # mount --bind "$INSTALLDIR" "${BOOTSTRAP_DIR}/mnt"
