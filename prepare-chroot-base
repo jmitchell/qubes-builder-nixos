@@ -54,6 +54,9 @@ sed -i "s,exec systemd,exec /$BASH," $INIT
 echo "--> leaving nix root"
 popd
 
+echo "--> copy nixos-chroot to ${INSTALLDIR}"
+cp -a "${CACHEDIR/nixos-chroot" "${INSTALLDIR}"
+
 
 # echo "  --> Binding INSTALLDIR '${INSTALLDIR}' to bootstrap environment..."
 # mount --bind "$INSTALLDIR" "${BOOTSTRAP_DIR}/mnt"
