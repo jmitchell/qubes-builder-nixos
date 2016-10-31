@@ -4,6 +4,7 @@
 ### May be called from ./scripts/01_install_core.sh or ./prepare-chroot-builder
 echo "--> NixOS prepare-chroot-base"
 
+SELFDIR=$(dirname $0)
 INSTALLDIR="$1"
 DISTRO="$2"  # aka elsewhere as $DIST
 
@@ -47,10 +48,17 @@ pushd "${CACHEDIR}/nixos-chroot"
 echo "--> creating nix root directories"
 mkdir -p etc dev proc sys home usr/local
 
-echo "--> patching init to start bash instead of systemd"
+echo "--> patching init to start bootstrap script instead of systemd"
 INIT=$(find . -type f -path '*nixos*/init')
 BASH=$(find . -type f -path '*/bin/bash' | tail -n 1)
-sed -i "s,exec systemd,exec /$BASH," $INIT
+cp $INIT ./tmp/init
+cp $SELFDIR/bootstrap-nixos.sh ./tmp
+chmod +x ./tmp/bootstrap-nixos.sh
+sed -i "s,exec /.*$,exec $BASH /tmp/bootstrap-nixos.sh," ./tmp/init
+sed -i "s,^PATH=.*$,," ./tmp/init
+
+echo "--> chroot and run install init"
+chroot . /usr/bin/env -i $BASH /tmp/init
 
 echo "--> leaving nix root"
 popd
@@ -69,9 +77,14 @@ rsync -a "${CACHEDIR}/nixos-chroot/." "${INSTALLDIR}"
 #     > "${CACHEDIR}/bootstrap/etc/pacman.d/mirrorlist"
 # cp /etc/resolv.conf "${BOOTSTRAP_DIR}/etc/"
 
+
+
 # echo "  --> Initializing pacman keychain..."
 # "${SCRIPTSDIR}/arch-chroot-lite" "$BOOTSTRAP_DIR" /bin/pacman-key --init
 # "${SCRIPTSDIR}/arch-chroot-lite" "$BOOTSTRAP_DIR" /bin/pacman-key --populate
+
+
+
 
 # echo "  --> Installing core pacman packages..."
 # export PACMAN_CACHE_MOUNT_DIR="${BOOTSTRAP_DIR}/mnt/var/cache/pacman"
